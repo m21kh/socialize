@@ -7,14 +7,10 @@ const platformGuides: Record<Platform, string> = {
 }
 
 async function callDeepSeek(systemPrompt: string, userMessage: string): Promise<string> {
-  const apiKey = process.env.DEEPSEEK_API_KEY || process.env.NEXT_PUBLIC_DEEPSEEK_API_KEY || ''
-
-  const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+  // Calls our own Next.js API route — keeps the API key server-side and safe
+  const response = await fetch('/api/generate', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${apiKey}`,
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
       model: 'deepseek-chat',
       max_tokens: 1000,
